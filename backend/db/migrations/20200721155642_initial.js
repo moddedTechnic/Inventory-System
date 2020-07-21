@@ -12,6 +12,8 @@ const itemTypes = require('../../src/constants/itemTypes');
 const {
 	createTable,
 	references,
+	url,
+	image,
 } = require('../../src/lib/tableUtils');
 
 /**
@@ -41,7 +43,7 @@ exports.up = async (knex) => {
 			table.enum('room', rooms).notNullable();
 			table.integer('shelf');
 			table.integer('row');
-			table.text('image_url', 2000).notNullable();
+			image('image_url').notNullable();
 		}),
 	]);
 
@@ -78,8 +80,8 @@ exports.up = async (knex) => {
 
 		createTable(knex, tableNames.manufacturer, (table) => {
 			table.text('name', 128).notNullable();
-			table.text('logo_url', 2000).notNullable();
-			table.text('url', 2000).notNullable();
+			image('logo_url').notNullable();
+			url('url').notNullable();
 			table.text('description', 1000);
 			table.enum('type', manufacturerTypes).notNullable();
 			references(table, tableNames.email);
@@ -89,7 +91,7 @@ exports.up = async (knex) => {
 
 	await Promise.all([
 		createTable(knex, tableNames.receipt, (table) => {
-			table.text('image_url', 2000).notNullable();
+			image('image_url').notNullable();
 			table.datetime('date').notNullable();
 			references(table, tableNames.user);
 			references(table, tableNames.address);
@@ -117,7 +119,7 @@ exports.up = async (knex) => {
 
 		createTable(knex, tableNames.itemImage, (table) => {
 			references(table, tableNames.item);
-			table.text('image_url', 2000).notNullable();
+			image('image_url').notNullable();
 		}),
 
 		createTable(knex, tableNames.relatedItem, (table) => {
