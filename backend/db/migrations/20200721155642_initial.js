@@ -43,7 +43,7 @@ exports.up = async (knex) => {
 			table.enum('room', rooms).notNullable();
 			table.integer('shelf');
 			table.integer('row');
-			image('image_url').notNullable();
+			image(table, 'image_url').notNullable();
 		}),
 	]);
 
@@ -80,8 +80,8 @@ exports.up = async (knex) => {
 
 		createTable(knex, tableNames.manufacturer, (table) => {
 			table.text('name', 128).notNullable();
-			image('logo_url').notNullable();
-			url('url').notNullable();
+			image(table, 'logo_url').notNullable();
+			url(table, 'url').notNullable();
 			table.text('description', 1000);
 			table.enum('type', manufacturerTypes).notNullable();
 			references(table, tableNames.email);
@@ -91,7 +91,7 @@ exports.up = async (knex) => {
 
 	await Promise.all([
 		createTable(knex, tableNames.receipt, (table) => {
-			image('image_url').notNullable();
+			image(table, 'image_url').notNullable();
 			table.datetime('date').notNullable();
 			references(table, tableNames.user);
 			references(table, tableNames.address);
@@ -119,7 +119,7 @@ exports.up = async (knex) => {
 
 		createTable(knex, tableNames.itemImage, (table) => {
 			references(table, tableNames.item);
-			image('image_url').notNullable();
+			image(table, 'image_url').notNullable();
 		}),
 
 		createTable(knex, tableNames.relatedItem, (table) => {
